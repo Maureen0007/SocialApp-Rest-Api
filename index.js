@@ -13,6 +13,13 @@ dotenv.config();
 mongoose.connect(process.env.MONGO_URI)
     console.log("Connected to MongoDB");
 
+    app.use((req, res, next) => {
+        res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+        next();
+      });
+      
+
+
 
     // middleware
     app.use(express.json());

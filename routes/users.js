@@ -44,16 +44,37 @@ router.delete("/:id", async(req,res)=>{
 router.get("/", async (req, res) => {
     const userId = req.query.userId;
     const username = req.query.username;
+
     try {
-      const user = userId
-        ? await User.findById(userId)
-        : await User.findOne({ username: username });
-      const { password, updatedAt, ...other } = user._doc;
-      res.status(200).json(other);
+        let users;
+        if (userId) {
+            users = await User.findById(userId);
+            if (!users) return res.status(404).json({ message: "User not found" });
+        } else if (username) {
+            users = await User.findOne({ username });
+            if (!users) return res.status(404).json({ message: "User not found" });
+        } else {
+            users = await User.find(); // Fetch **all users** if no query params
+        }
+
+        if (Array.isArray(users)) {
+            // If multiple users, remove sensitive data from each user
+            users = users.map(({ _doc }) => {
+                const { password, updatedAt, ...other } = _doc;
+                return other;
+            });
+        } else {
+            // If single user, remove sensitive data
+            const { password, updatedAt, ...other } = users._doc;
+            users = other;
+        }
+
+        res.status(200).json(users);
     } catch (err) {
-      res.status(500).json(err);
+        res.status(500).json({ message: err.message });
     }
-  });
+});
+
   
 // follow a user
 
