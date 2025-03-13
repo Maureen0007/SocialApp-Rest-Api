@@ -18,6 +18,11 @@ mongoose.connect(process.env.MONGO_URI)
         next();
       });
       
+    //   default
+    app.get("/", (req, res) => {
+        res.send("Welcome to the SocialApp API!");
+    });
+    
 
 
 
