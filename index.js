@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI)
       
     //   default
     app.get("/", (req, res) => {
-        res.send("Welcome to the SocialApp API!");
+        res.send("Welcome to the SocialApp API! Enter your preferred endpoint!");
     });
     
 
