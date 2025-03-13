@@ -71,7 +71,7 @@ This is a fully functional REST API for a social media platform, built using Nod
 ## Deployment
 This API is deployed at:
 ```
-https://your-deployed-api-url.com
+https://socialapp-rest-api.onrender.com
 ```
 
 ## Contributing
